@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5e9df">
+<title>Una sorpresa para ti 💌</title>
+<style>
+:root{
+  --bg:#f6eee7;
+  --ink:#4a342f;
+  --muted:#836b63;
+  --accent:#8f4950;
+  --accent2:#bd7777;
+  --paper:#fffaf0;
+  --envelope:#d9a59d;
+  --envelope-dark:#c58d86;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; min-height:100vh; color:var(--ink);
+  font-family:Georgia,"Times New Roman",serif;
+  background:
+    radial-gradient(circle at 20% 10%,#fff8 0 9%,transparent 28%),
+    radial-gradient(circle at 80% 75%,#e7cdc65c 0 9%,transparent 28%),
+    linear-gradient(145deg,#fbf5ef,#efe2d8);
+  overflow-x:hidden;
+}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.20; z-index:-1;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.13'/%3E%3C/svg%3E");
+}
+button{font:inherit}
+.screen{
+  min-height:100svh; padding:30px 16px calc(35px + env(safe-area-inset-bottom));
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  opacity:1; transform:translateY(0); transition:opacity .65s ease,transform .65s ease;
+}
+.screen.leave{opacity:0;transform:translateY(-20px)}
+.hidden{display:none!important}
+.eyebrow{font:600 12px/1.2 Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+h1{font-size:clamp(30px,7vw,55px);font-weight:400;line-height:1.08;text-align:center;margin:0 0 12px}
+.subtitle{max-width:620px;text-align:center;color:var(--muted);line-height:1.7;margin:0 0 22px}
+.btn{
+  appearance:none;border:0;border-radius:999px;padding:14px 25px;cursor:pointer;
+  color:#fff;background:linear-gradient(135deg,var(--accent),#aa5e64);
+  box-shadow:0 12px 28px #7c3e4538,inset 0 1px #ffffff42;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 32px #7c3e4542}
+.btn:active{transform:translateY(1px) scale(.98)}
+.btn.secondary{background:#fff9;color:var(--ink);border:1px solid #cdb7ad;box-shadow:0 7px 20px #0001}
+.tiny{font:13px/1.5 Arial,sans-serif;color:var(--muted);text-align:center}
+
+/* ---------- INTRO / SOBRE 3D ---------- */
+.envelope-scene{
+  width:min(92vw,500px);height:390px;position:relative;perspective:1400px;
+  margin:2px auto 12px;filter:drop-shadow(0 30px 26px #633d3227);
+}
+.envelope{
+  position:absolute;left:50%;top:53%;width:min(92vw,460px);height:270px;
+  transform:translate(-50%,-50%);transform-style:preserve-3d;
+}
+.env-back{position:absolute;inset:0;background:linear-gradient(#e2b0a8,#d59c94);border-radius:5px}
+.env-letter{
+  position:absolute;left:7%;right:7%;bottom:15px;height:235px;background:var(--paper);
+  border:1px solid #eadcca;box-shadow:0 9px 24px #56362f20;z-index:2;
+  transition:transform 1.15s cubic-bezier(.17,.84,.31,1.16),filter .8s;
+}
+.env-letter::before{content:"Para ti...";display:block;text-align:center;margin-top:42px;font-size:26px;color:#876d64;font-style:italic}
+.env-front{
+  position:absolute;inset:0;z-index:4;overflow:hidden;border-radius:0 0 5px 5px;
+}
+.env-front::before{
+  content:"";position:absolute;left:0;bottom:0;width:100%;height:100%;
+  background:linear-gradient(35deg,var(--envelope) 0 49.5%,transparent 50%) left bottom/51% 100% no-repeat,
+             linear-gradient(-35deg,var(--envelope-dark) 0 49.5%,transparent 50%) right bottom/51% 100% no-repeat;
+}
+.flap{
+  position:absolute;left:0;right:0;top:0;height:166px;
+  background:linear-gradient(160deg,#e6b8b0,#dba49d);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top center;transform:rotateX(0deg);z-index:6;
+  transition:transform 1s cubic-bezier(.2,.75,.25,1);
+  backface-visibility:hidden;
+}
+.seal{
+  position:absolute;left:50%;top:135px;z-index:7;width:64px;height:64px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  display:grid;place-items:center;color:#f8e9e5;font-size:27px;
+  background:radial-gradient(circle at 35% 30%,#b76068,#7f333c 68%);
+  box-shadow:0 5px 14px #4a20284a,inset 0 0 0 3px #ffffff14;
+  transition:opacity .45s,transform .55s;
+}
+.seal::after{content:"";position:absolute;inset:7px;border:1px dashed #f0cac685;border-radius:50%}
+.envelope.open .flap{transform:rotateX(180deg);z-index:1}
+.envelope.open .seal{opacity:0;transform:translate(-50%,-70%) scale(.4)}
+.envelope.open .env-letter{transform:translateY(-145px);filter:drop-shadow(0 20px 14px #5c403527)}
+.envelope.takeout .env-letter{transform:translateY(-230px) scale(1.05)}
+.open-trigger{margin-top:-3px;z-index:10}
+.tap-seal{position:absolute;inset:0;border:0;background:transparent;cursor:pointer;z-index:9}
+
+/* ---------- FOTOS / POLAROIDS ---------- */
+#photosScreen{justify-content:flex-start;padding-top:55px}
+.gallery{
+  width:min(1000px,95vw);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:24px;margin:22px 0 28px;
+}
+.memory{perspective:1100px;height:330px;cursor:pointer;transform:rotate(var(--rot));transition:transform .25s}
+.memory:hover{transform:rotate(var(--rot)) translateY(-5px)}
+.memory-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .78s cubic-bezier(.2,.75,.2,1)}
+.memory.flipped .memory-inner{transform:rotateY(180deg)}
+.card-face{
+  position:absolute;inset:0;backface-visibility:hidden;background:#fff;border-radius:3px;
+  box-shadow:0 15px 35px #44332d25;padding:10px 10px 45px;
+}
+.card-back{
+  display:grid;place-items:center;
+  background:
+    linear-gradient(135deg,#c88d8a20 25%,transparent 25%) 0 0/22px 22px,
+    linear-gradient(315deg,#c88d8a20 25%,transparent 25%) 0 0/22px 22px,
+    #e4b7b0;
+  border:9px solid white;
+}
+.card-back .heartmark{font-size:50px;color:#fff;text-shadow:0 4px 12px #77434a39}
+.card-back small{position:absolute;bottom:28px;font:12px Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+.card-front{transform:rotateY(180deg)}
+.card-front img{width:100%;height:245px;display:block;object-fit:cover;background:#eee}
+.caption{position:absolute;left:12px;right:12px;bottom:12px;text-align:center;font-size:15px;font-style:italic}
+.progress-wrap{width:min(430px,88vw);margin:4px auto 0}
+.progress-label{text-align:center;font:13px Arial,sans-serif;color:var(--muted);margin-bottom:7px}
+.progress-track{height:5px;border-radius:10px;background:#d8c7bf;overflow:hidden}
+.progress-bar{height:100%;width:0;background:var(--accent);transition:width .45s ease}
+.continue-wrap{min-height:58px;display:flex;align-items:center}
+
+/* ---------- CARTA REALISTA ---------- */
+#letterScreen{justify-content:flex-start;padding-top:50px}
+.letter-heading{margin-bottom:20px}
+.letter-stage{width:min(850px,94vw);perspective:1300px;margin:0 auto 30px}
+.paper{
+  position:relative;min-height:620px;padding:clamp(45px,8vw,80px) clamp(30px,8vw,85px);
+  color:#44332d;
+  background:
+    linear-gradient(#ffffff57,#ffffff57),
+    repeating-linear-gradient(0deg,transparent 0 31px,#aebbd326 32px,#aebbd326 33px),
+    var(--paper);
+  border:1px solid #e7dac6;
+  box-shadow:0 30px 70px #432e272b,0 3px 3px #0000000c;
+  transform-origin:top center;transform:translateY(120px) rotateX(20deg) scale(.92);
+  opacity:0;transition:transform 1.15s cubic-bezier(.16,.85,.25,1),opacity .75s ease;
+}
+.paper.show{transform:translateY(0) rotateX(0) scale(1);opacity:1}
+.paper::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.16;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='130'%3E%3Cfilter id='a'%3E%3CfeTurbulence baseFrequency='.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)' opacity='.12'/%3E%3C/svg%3E");
+}
+.paper::after{content:"";position:absolute;inset:18px;border:1px solid #c8b69366;pointer-events:none}
+.paper h2{font-size:clamp(28px,5vw,42px);font-weight:400;text-align:center;margin:0 0 38px}
+.letter-body{position:relative;font-size:clamp(17px,2.2vw,20px);line-height:1.9;white-space:pre-line}
+.signature{position:relative;white-space:pre-line;text-align:right;font-size:21px;font-style:italic;line-height:1.55;margin-top:45px}
+.end-note{text-align:center;color:var(--muted);font-style:italic;margin:20px 0 10px}
+
+/* ---------- UI / MÚSICA ---------- */
+.music-btn{
+  position:fixed;right:14px;top:14px;z-index:50;width:45px;height:45px;border-radius:50%;
+  border:1px solid #ffffffa3;background:#fff9;backdrop-filter:blur(8px);cursor:pointer;
+  box-shadow:0 6px 18px #0002;font-size:18px;display:grid;place-items:center;
+}
+.particle{position:fixed;pointer-events:none;z-index:80;animation:rise var(--time) ease-out forwards}
+@keyframes rise{0%{transform:translate3d(0,10px,0) scale(.7);opacity:0}15%{opacity:.8}100%{transform:translate3d(var(--drift),-105vh,0) rotate(25deg) scale(1.2);opacity:0}}
+.fade-in{animation:fadeIn .7s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+@media(max-width:760px){
+  .gallery{grid-template-columns:1fr;max-width:370px}
+  .memory{height:390px}
+  .card-front img{height:305px}
+  .envelope-scene{height:360px}
+  .paper{min-height:560px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<button id="musicBtn" class="music-btn hidden" aria-label="Activar o pausar música">♫</button>
+<audio id="bgMusic" loop preload="none"></audio>
+
+<section id="intro" class="screen">
+  <div class="eyebrow" id="introEyebrow"></div>
+  <h1 id="introTitle"></h1>
+  <p class="subtitle" id="introSubtitle"></p>
+
+  <div class="envelope-scene" aria-label="Sobre cerrado">
+    <div id="envelope" class="envelope">
+      <div class="env-back"></div>
+      <div class="env-letter"></div>
+      <div class="env-front"></div>
+      <div class="flap"></div>
+      <div class="seal">♥</div>
+      <button class="tap-seal" onclick="startExperience()" aria-label="Abrir el sobre"></button>
+    </div>
+  </div>
+
+  <button id="openBtn" class="btn open-trigger" onclick="startExperience()">Abrir el sobre</button>
+  <p class="tiny">Toca el sello o el botón</p>
+</section>
+
+<section id="photosScreen" class="screen hidden">
+  <div class="eyebrow">Un pequeño viaje</div>
+  <h1 id="photosTitle"></h1>
+  <p class="subtitle" id="photosSubtitle"></p>
+
+  <div class="progress-wrap">
+    <div id="progressLabel" class="progress-label"></div>
+    <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+  </div>
+
+  <div id="gallery" class="gallery"></div>
+  <div class="continue-wrap">
+    <button id="toLetter" class="btn hidden" onclick="goToLetter()">Leer la carta 💌</button>
+  </div>
+</section>
+
+<section id="letterScreen" class="screen hidden">
+  <div class="letter-heading">
+    <div class="eyebrow">La última sorpresa</div>
+    <h1 id="letterScreenTitle"></h1>
+  </div>
+  <div class="letter-stage">
+    <article id="paper" class="paper">
+      <h2 id="letterTitle"></h2>
+      <div id="letterBody" class="letter-body"></div>
+      <div id="signature" class="signature"></div>
+    </article>
+  </div>
+  <p id="endNote" class="end-note"></p>
+</section>
+
+<script>
+/* ============================================================
+   ✨ PERSONALIZA SOLO ESTE BLOQUE
+   ============================================================ */
+const CONFIG = {
+  bienvenida: {
+    etiqueta: "Una sorpresa especial",
+    titulo: "Tengo algo para ti 💌",
+    subtitulo: "Hay recuerdos y unas palabras que quería entregarte de una forma diferente."
+  },
+
+  // true = las fotos aparecen antes de la carta.
+  // false = al abrir el sobre se va directamente a la carta.
+  mostrarFotosAntes: true,
+
+  fotos: [
+    { src: "fotos/foto1.jpg", texto: "Nuestro primer recuerdo" },
+    { src: "fotos/foto2.jpg", texto: "Ese momento que siempre recuerdo" },
+    { src: "fotos/foto3.jpg", texto: "Una de mis fotografías favoritas" },
+    { src: "fotos/foto4.jpg", texto: "Un día que guardo con cariño" },
+    { src: "fotos/foto5.jpg", texto: "Por todos los momentos compartidos" },
+    { src: "fotos/foto6.jpg", texto: "Y por todos los que todavía faltan..." }
+  ],
+
+  seccionFotos: {
+    titulo: "Nuestros recuerdos 📸",
+    subtitulo: "Cada fotografía está escondida. Tócala para darle la vuelta."
+  },
+
+  carta: {
+    tituloPantalla: "Ahora sí... esta es para ti",
+    titulo: "Para ti ❤️",
+    texto: `Aquí puedes escribir absolutamente todo lo que quieras.
+
+Puedes poner varios párrafos y dejar líneas en blanco entre ellos.
+
+Cuenta algo que recuerdes, dile lo que significa para ti o simplemente escribe lo que salga de tu corazón.
+
+Cuando reemplaces este texto, conserva las comillas invertidas que están al principio y al final.`,
+    firma: `Con mucho cariño,
+Tu nombre`,
+    final: "Gracias por llegar hasta aquí ♥"
+  },
+
+  // Música OPCIONAL. Pon un MP3 llamado cancion.mp3 dentro de /musica.
+  // Si no quieres música, deja musicaActiva en false.
+  musicaActiva: false,
+  archivoMusica: "musica/cancion.mp3",
+  volumen: 0.35
+};
+/* ============================================================
+   ⛔ NO HACE FALTA EDITAR NADA DEBAJO
+   ============================================================ */
+
+const $ = s => document.querySelector(s);
+let started=false, flipped=new Set();
+
+function setTexts(){
+  $("#introEyebrow").textContent=CONFIG.bienvenida.etiqueta;
+  $("#introTitle").textContent=CONFIG.bienvenida.titulo;
+  $("#introSubtitle").textContent=CONFIG.bienvenida.subtitulo;
+  $("#photosTitle").textContent=CONFIG.seccionFotos.titulo;
+  $("#photosSubtitle").textContent=CONFIG.seccionFotos.subtitulo;
+  $("#letterScreenTitle").textContent=CONFIG.carta.tituloPantalla;
+  $("#letterTitle").textContent=CONFIG.carta.titulo;
+  $("#letterBody").textContent=CONFIG.carta.texto;
+  $("#signature").textContent=CONFIG.carta.firma;
+  $("#endNote").textContent=CONFIG.carta.final;
+
+  if(CONFIG.musicaActiva){
+    $("#bgMusic").src=CONFIG.archivoMusica;
+    $("#bgMusic").volume=Math.max(0,Math.min(1,CONFIG.volumen));
+    $("#musicBtn").classList.remove("hidden");
+  }
+}
+setTexts();
+
+async function startMusic(){
+  if(!CONFIG.musicaActiva)return;
+  try{await $("#bgMusic").play();$("#musicBtn").textContent="❚❚"}catch(e){}
+}
+$("#musicBtn").onclick=()=>{
+  const a=$("#bgMusic");
+  if(a.paused){a.play();$("#musicBtn").textContent="❚❚"}
+  else{a.pause();$("#musicBtn").textContent="♫"}
+};
+
+function startExperience(){
+  if(started)return; started=true;
+  startMusic(); burst(18);
+  $("#openBtn").disabled=true;
+  $("#envelope").classList.add("open");
+  setTimeout(()=>$("#envelope").classList.add("takeout"),700);
+  setTimeout(()=>{
+    if(CONFIG.mostrarFotosAntes && CONFIG.fotos.length){
+      transition("#intro","#photosScreen",renderPhotos);
+    }else{
+      transition("#intro","#letterScreen",showPaper);
+    }
+  },1900);
+}
+
+function transition(from,to,after){
+  const a=$(from),b=$(to);
+  a.classList.add("leave");
+  setTimeout(()=>{
+    a.classList.add("hidden");
+    b.classList.remove("hidden");
+    b.classList.add("fade-in");
+    window.scrollTo({top:0,behavior:"instant"});
+    if(after)after();
+  },520);
+}
+
+function renderPhotos(){
+  const g=$("#gallery");g.innerHTML="";
+  flipped.clear();
+  CONFIG.fotos.forEach((p,i)=>{
+    const card=document.createElement("div");
+    card.className="memory";
+    card.style.setProperty("--rot",`${[-2.2,1.7,-1.1,2.4,-1.8,1.2][i%6]}deg`);
+    card.innerHTML=`<div class="memory-inner">
+      <div class="card-face card-back"><div class="heartmark">♥</div><small>Tócame</small></div>
+      <div class="card-face card-front"><img src="${p.src}" alt="Recuerdo ${i+1}" loading="lazy"><div class="caption">${escapeHtml(p.texto)}</div></div>
+    </div>`;
+    card.addEventListener("click",()=>{
+      if(card.classList.contains("flipped"))return;
+      card.classList.add("flipped");flipped.add(i);updateProgress();burst(6);
+    });
+    g.appendChild(card);
+  });
+  updateProgress();
+}
+
+function updateProgress(){
+  const total=CONFIG.fotos.length,n=flipped.size;
+  $("#progressLabel").textContent=`Recuerdos descubiertos: ${n} de ${total}`;
+  $("#progressBar").style.width=(total? n/total*100:100)+"%";
+  if(n===total)$("#toLetter").classList.remove("hidden");
+}
+
+function goToLetter(){
+  transition("#photosScreen","#letterScreen",showPaper);
+}
+
+function showPaper(){
+  setTimeout(()=>$("#paper").classList.add("show"),100);
+  setTimeout(()=>burst(24),500);
+}
+
+function burst(n=10){
+  const symbols=["♥","♡","✦","·"];
+  for(let i=0;i<n;i++){
+    const p=document.createElement("span");
+    p.className="particle";
+    p.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+    p.style.left=(8+Math.random()*84)+"vw";
+    p.style.bottom=(-10+Math.random()*40)+"px";
+    p.style.fontSize=(13+Math.random()*20)+"px";
+    p.style.color=Math.random()>.35?"#98545a":"#c58d86";
+    p.style.setProperty("--drift",(-70+Math.random()*140)+"px");
+    p.style.setProperty("--time",(3.4+Math.random()*2.8)+"s");
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),6500);
+  }
+}
+function escapeHtml(s=""){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+</script>
+</body>
+</html>
