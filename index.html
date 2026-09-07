@@ -645,6 +645,278 @@ h1{
     scroll-behavior:auto!important;
   }
 }
+
+/* =========================================================
+   🔐 BLOQUEO ROMÁNTICO
+========================================================= */
+
+.lock-screen{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(circle at 50% 18%, #ffffffcc 0 8%, transparent 32%),
+    radial-gradient(circle at 15% 85%, #ff8fb044 0 8%, transparent 30%),
+    radial-gradient(circle at 88% 70%, #e83e7240 0 8%, transparent 30%),
+    linear-gradient(145deg,#fff7fb,#ffd1e1);
+}
+
+.lock-screen::before,
+.lock-screen::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:-1;
+}
+
+.lock-screen::before{
+  width:360px;
+  height:360px;
+  top:-170px;
+  left:-130px;
+  background:#ff6f9140;
+  filter:blur(8px);
+}
+
+.lock-screen::after{
+  width:420px;
+  height:420px;
+  right:-180px;
+  bottom:-220px;
+  background:#e83e7230;
+  filter:blur(10px);
+}
+
+.lock-card{
+  position:relative;
+  width:min(470px,92vw);
+  padding:42px 30px 28px;
+  text-align:center;
+  border:1px solid #ffffffdd;
+  border-radius:30px;
+  background:linear-gradient(160deg,#ffffffef,#fff7f9ed);
+  box-shadow:
+    0 28px 70px #8f2d5130,
+    0 5px 18px #8f2d5118,
+    inset 0 1px 0 #fff;
+  backdrop-filter:blur(12px);
+  animation:lockCardIn .9s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.lock-heart{
+  width:76px;
+  height:76px;
+  margin:-8px auto 18px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  color:white;
+  font-size:34px;
+  background:radial-gradient(circle at 35% 28%,#ff7397,#e83e72 62%,#c91f57);
+  box-shadow:
+    0 12px 28px #d52b6138,
+    inset 0 2px 5px #ffffff55;
+  animation:heartPulse 2s ease-in-out infinite;
+}
+
+.lock-card h1{
+  margin:8px 0 12px;
+  font-size:clamp(29px,7vw,42px);
+  line-height:1.05;
+  color:#641b3d;
+}
+
+.lock-message{
+  margin:0 auto 18px;
+  max-width:390px;
+  color:#8e4565;
+  font-size:16px;
+  line-height:1.65;
+}
+
+.lock-message strong{
+  color:#721c43;
+}
+
+.date-hint{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  margin:0 auto 24px;
+  padding:10px 14px;
+  width:max-content;
+  max-width:100%;
+  border-radius:999px;
+  background:#ffe2ec;
+  color:#a13961;
+  font-size:12px;
+  box-shadow:inset 0 1px 0 #fff;
+}
+
+.password-wrap{
+  text-align:left;
+  margin:0 auto 17px;
+  max-width:360px;
+}
+
+.password-wrap label{
+  display:block;
+  margin:0 0 7px 5px;
+  color:#7b2b4e;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.password-input-wrap{
+  position:relative;
+}
+
+.password-input-wrap input{
+  width:100%;
+  height:58px;
+  padding:0 48px 0 47px;
+  border:2px solid #f5b1c7;
+  border-radius:17px;
+  outline:none;
+  text-align:center;
+  font:600 19px Georgia,"Times New Roman",serif;
+  letter-spacing:.08em;
+  color:#5b1736;
+  background:#fff;
+  box-shadow:0 8px 20px #a92c5a12;
+  transition:border-color .25s, box-shadow .25s, transform .25s;
+}
+
+.password-input-wrap input::placeholder{
+  color:#c8879e;
+  letter-spacing:.04em;
+}
+
+.password-input-wrap input:focus{
+  border-color:#e83e72;
+  box-shadow:0 0 0 5px #e83e7217,0 10px 25px #a92c5a18;
+  transform:translateY(-1px);
+}
+
+.calendar-icon,
+.input-heart{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  pointer-events:none;
+  color:#e83e72;
+  font-size:23px;
+}
+
+.calendar-icon{left:17px}
+.input-heart{right:17px;font-size:17px}
+
+.lock-btn{
+  width:min(360px,100%);
+  margin:0 auto;
+  box-shadow:0 12px 25px #c51f5935;
+}
+
+.password-error{
+  min-height:22px;
+  margin:12px 0 0;
+  color:#c32659;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.password-error.shake{
+  animation:shakePassword .45s ease;
+}
+
+.lock-footer{
+  margin-top:20px;
+  color:#b05a79;
+  font-size:11px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.lock-footer span{
+  margin:0 6px;
+  color:#e83e72;
+}
+
+.floating-lock-heart{
+  position:absolute;
+  color:#e83e72;
+  opacity:.55;
+  pointer-events:none;
+  animation:floatLock 5s ease-in-out infinite;
+}
+
+.heart-a{left:12%;top:18%;font-size:22px}
+.heart-b{right:12%;top:25%;font-size:30px;animation-delay:1s}
+.heart-c{left:18%;bottom:15%;font-size:18px;animation-delay:2s}
+.heart-d{right:20%;bottom:18%;font-size:19px;animation-delay:3s}
+
+.lock-screen.unlocking .lock-card{
+  animation:unlockCard .75s ease forwards;
+}
+
+.lock-screen.unlocking .lock-heart{
+  animation:unlockHeart .7s ease forwards;
+}
+
+@keyframes lockCardIn{
+  from{opacity:0;transform:translateY(24px) scale(.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+@keyframes heartPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.07)}
+}
+
+@keyframes floatLock{
+  0%,100%{transform:translateY(0) rotate(-8deg)}
+  50%{transform:translateY(-17px) rotate(8deg)}
+}
+
+@keyframes shakePassword{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-8px)}
+  40%{transform:translateX(8px)}
+  60%{transform:translateX(-6px)}
+  80%{transform:translateX(6px)}
+}
+
+@keyframes unlockCard{
+  0%{opacity:1;transform:scale(1)}
+  45%{opacity:1;transform:scale(1.03)}
+  100%{opacity:0;transform:scale(.94) translateY(-20px)}
+}
+
+@keyframes unlockHeart{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.35)}
+  100%{transform:scale(.2);opacity:0}
+}
+
+@media (max-width:520px){
+  .lock-card{
+    padding:34px 20px 24px;
+    border-radius:25px;
+  }
+
+  .lock-heart{
+    width:68px;
+    height:68px;
+    font-size:30px;
+  }
+
+  .date-hint{
+    font-size:11px;
+  }
+}
+
 </style>
 </head>
 
@@ -666,7 +938,70 @@ h1{
      PANTALLA INICIAL
 ======================================================== -->
 
-<section id="intro" class="screen">
+
+<!-- ========================================================
+     🔐 BLOQUEO ROMÁNTICO
+======================================================== -->
+<section id="lockScreen" class="screen lock-screen">
+  <div class="lock-glow"></div>
+
+  <div class="lock-card">
+    <div class="lock-heart">♥</div>
+
+    <div class="eyebrow">Una pequeña sorpresa para ti</div>
+
+    <h1>Antes de entrar... 💗</h1>
+
+    <p class="lock-message">
+      Hay una fecha que solo tú deberías recordar.
+      <br>
+      <strong>¿Cuál fue el día en que comenzó nuestra historia? 🥰</strong>
+    </p>
+
+    <div class="date-hint">
+      <span>♥</span>
+      Pista: <em>el día que nos hicimos novios</em>
+      <span>♥</span>
+    </div>
+
+    <div class="password-wrap">
+      <label for="lovePassword">Nuestra fecha</label>
+      <div class="password-input-wrap">
+        <span class="calendar-icon">♡</span>
+        <input
+          id="lovePassword"
+          type="text"
+          inputmode="numeric"
+          autocomplete="off"
+          maxlength="10"
+          placeholder="DD/MM/AAAA"
+          aria-label="Fecha especial"
+          onkeydown="if(event.key==='Enter') checkPassword()"
+        >
+        <span class="input-heart">♥</span>
+      </div>
+    </div>
+
+    <button id="passwordBtn" class="btn lock-btn" onclick="checkPassword()">
+      Desbloquear nuestra historia 💌
+    </button>
+
+    <p id="passwordError" class="password-error" aria-live="polite"></p>
+
+    <div class="lock-footer">
+      <span>♡</span>
+      Solo hay una respuesta correcta
+      <span>♡</span>
+    </div>
+  </div>
+
+  <div class="floating-lock-heart heart-a">♥</div>
+  <div class="floating-lock-heart heart-b">♡</div>
+  <div class="floating-lock-heart heart-c">♥</div>
+  <div class="floating-lock-heart heart-d">✦</div>
+</section>
+
+<section id="intro" class="screen hidden">
 
   <div class="eyebrow" id="introEyebrow"></div>
 
@@ -1063,6 +1398,74 @@ function setTexts(){
 /* =========================================================
    INICIAR
 ========================================================= */
+
+
+/* =========================================================
+   🔐 CONTRASEÑA DE NUESTRA FECHA
+========================================================= */
+
+const LOVE_PASSWORD = "26/7/2026";
+
+function normalizeDate(value){
+  return value
+    .trim()
+    .replace(/\s+/g,"")
+    .replace(/-/g,"/")
+    .replace(/\/+/g,"/");
+}
+
+function checkPassword(){
+  const input = $("#lovePassword");
+  const error = $("#passwordError");
+  const lock = $("#lockScreen");
+  const button = $("#passwordBtn");
+
+  const value = normalizeDate(input.value);
+
+  if(value === LOVE_PASSWORD || value === "26/07/2026"){
+    error.textContent = "¡Correcto! ❤️ Nuestra historia comienza aquí...";
+    error.style.color = "#a51f50";
+    button.disabled = true;
+    lock.classList.add("unlocking");
+
+    burst(28);
+
+    setTimeout(() => {
+      lock.classList.add("leave");
+
+      setTimeout(() => {
+        lock.classList.add("hidden");
+        $("#intro").classList.remove("hidden");
+        $("#intro").classList.add("fade-in");
+        window.scrollTo({top:0, behavior:"instant"});
+      }, 550);
+    }, 650);
+
+    return;
+  }
+
+  error.textContent = "Mmm... esa no es nuestra fecha 💗 Inténtalo otra vez.";
+  input.classList.remove("password-error");
+  void input.offsetWidth;
+  input.classList.add("password-error");
+  input.focus();
+}
+
+function formatDateInput(event){
+  const input = event.target;
+  let value = input.value.replace(/[^\d]/g,"").slice(0,8);
+
+  if(value.length > 4){
+    value = value.slice(0,2) + "/" + value.slice(2,4) + "/" + value.slice(4);
+  }else if(value.length > 2){
+    value = value.slice(0,2) + "/" + value.slice(2);
+  }
+
+  input.value = value;
+}
+
+$("#lovePassword").addEventListener("input", formatDateInput);
+
 
 setTexts();
 
