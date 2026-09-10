@@ -531,6 +531,100 @@ h1{
 }
 
 
+
+/* =========================================================
+   ÚLTIMA SORPRESA - CANCIÓN
+========================================================= */
+
+.final-surprise{
+  width:min(620px,92vw);
+  margin:30px auto 55px;
+  padding:26px 24px;
+  text-align:center;
+  border:1px solid #ffffff9c;
+  border-radius:26px;
+  background:
+    radial-gradient(circle at 20% 10%,#ffffffb8,transparent 38%),
+    linear-gradient(135deg,#fff8fbdd,#ffd6e5dd);
+  box-shadow:0 18px 48px #a92e5a22;
+  backdrop-filter:blur(8px);
+  opacity:0;
+  transform:translateY(24px) scale(.98);
+  transition:opacity .75s ease, transform .75s cubic-bezier(.2,.75,.2,1);
+}
+
+.final-surprise.show{
+  opacity:1;
+  transform:none;
+}
+
+.final-surprise-icon{
+  width:64px;
+  height:64px;
+  margin:0 auto 12px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:30px;
+  background:#fff;
+  box-shadow:0 10px 28px #e83e7240;
+  animation:finalPulse 2.2s ease-in-out infinite;
+}
+
+.final-surprise h3{
+  margin:0 0 9px;
+  font-size:clamp(23px,4vw,31px);
+  font-weight:500;
+  color:var(--ink);
+}
+
+.final-surprise p{
+  margin:0 auto 19px;
+  max-width:490px;
+  color:var(--muted);
+  line-height:1.65;
+}
+
+.final-song-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  min-height:50px;
+  padding:13px 22px;
+  border:0;
+  border-radius:999px;
+  cursor:pointer;
+  font:600 15px/1.2 Arial,sans-serif;
+  color:white;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:0 10px 26px #d62d6750;
+  transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+.final-song-btn:hover{
+  transform:translateY(-2px) scale(1.02);
+  box-shadow:0 14px 32px #d62d6761;
+  filter:saturate(1.08);
+}
+
+.final-song-btn:active{
+  transform:translateY(0) scale(.98);
+}
+
+.final-surprise small{
+  display:block;
+  margin-top:12px;
+  color:#a85b79;
+  font-style:italic;
+}
+
+@keyframes finalPulse{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.08); }
+}
+
+
 /* =========================================================
    MUSICA
 ========================================================= */
@@ -551,6 +645,28 @@ h1{
   font-size:18px;
   display:grid;
   place-items:center;
+}
+
+
+
+
+/* =========================================================
+   ABRIR LA ÚLTIMA SORPRESA
+========================================================= */
+
+function openFinalSong(){
+  const url = CONFIG.sorpresaFinal?.enlace?.trim();
+
+  if(!url || url === "PEGA_AQUI_EL_ENLACE_DE_LA_CANCION"){
+    alert("Falta agregar el enlace de la canción en CONFIG.sorpresaFinal.enlace 💗");
+    return;
+  }
+
+  burst(28);
+
+  setTimeout(() => {
+    window.open(url, "_blank", "noopener,noreferrer");
+  },250);
 }
 
 
@@ -955,12 +1071,12 @@ h1{
     <p class="lock-message">
       Hay una fecha que solo tú deberías recordar.
       <br>
-      <strong>¿Que dia inicio nuestra verdadera historia? 🥰</strong>
+      <strong>¿Cuál fue el día en que comenzó nuestra historia? 🥰</strong>
     </p>
 
     <div class="date-hint">
       <span>♥</span>
-      Pista: <em>Un dia muy especial fue en un viaje</em>
+      Pista: <em>el día que nos hicimos novios</em>
       <span>♥</span>
     </div>
 
@@ -1151,6 +1267,16 @@ h1{
     class="end-note">
   </p>
 
+  <div id="finalSurprise" class="final-surprise">
+    <div class="final-surprise-icon">🎵</div>
+    <h3 id="finalSurpriseTitle">Ahora sí... una última sorpresa 💗</h3>
+    <p id="finalSurpriseText">Hay una canción que quiero que escuches. Presiona el botón y déjame decirte una última cosa a través de ella.</p>
+    <button id="finalSongBtn" class="final-song-btn" type="button" onclick="openFinalSong()">
+      Escuchar nuestra canción 🎧
+    </button>
+    <small>Con audífonos se siente todavía más bonito ♡</small>
+  </div>
+
 </section>
 
 
@@ -1183,12 +1309,11 @@ const CONFIG = {
      FOTOS
      
      IMPORTANTE:
-     Estas son las únicas dos fotos que vamos a utilizar.
+     Las fotos deben estar en la misma carpeta que index.html.
      
-     Los nombres DEBEN ser exactamente:
+     Los nombres deben ser exactamente:
      
-     fotos/foto1.jpeg
-     fotos/foto2.jpeg
+     foto1.jpeg, foto2.jpeg, foto3.jpeg, etc.
   ------------------------------------------------------- */
 
   mostrarFotosAntes: true,
@@ -1315,6 +1440,24 @@ Frank G`,
   },
 
 
+
+
+  /* -------------------------------------------------------
+     ÚLTIMA SORPRESA - CANCIÓN
+
+     Pega en "enlace" el link de Spotify, YouTube,
+     YouTube Music, Apple Music o cualquier página web.
+  ------------------------------------------------------- */
+
+  sorpresaFinal: {
+    activa: true,
+    titulo: "Ahora sí... una última sorpresa 💗",
+    texto: "Hay una canción que quiero que escuches. Presiona el botón y déjame decirte una última cosa a través de ella.",
+    boton: "Escuchar nuestra canción 🎧",
+    enlace: "PEGA_AQUI_EL_ENLACE_DE_LA_CANCION"
+  },
+
+
   /* -------------------------------------------------------
      MÚSICA
      
@@ -1376,6 +1519,24 @@ function setTexts(){
 
   $("#endNote").textContent =
     CONFIG.carta.final;
+
+
+  const finalSurprise = $("#finalSurprise");
+
+  if(CONFIG.sorpresaFinal && CONFIG.sorpresaFinal.activa){
+    $("#finalSurpriseTitle").textContent =
+      CONFIG.sorpresaFinal.titulo;
+
+    $("#finalSurpriseText").textContent =
+      CONFIG.sorpresaFinal.texto;
+
+    $("#finalSongBtn").textContent =
+      CONFIG.sorpresaFinal.boton;
+
+    finalSurprise.classList.remove("hidden");
+  }else{
+    finalSurprise.classList.add("hidden");
+  }
 
 
   if(CONFIG.musicaActiva){
@@ -1829,6 +1990,12 @@ function showPaper(){
     burst(24);
 
   },500);
+
+  setTimeout(() => {
+    if(CONFIG.sorpresaFinal && CONFIG.sorpresaFinal.activa){
+      $("#finalSurprise").classList.add("show");
+    }
+  },1200);
 
 }
 
