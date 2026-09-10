@@ -664,9 +664,8 @@ function openFinalSong(){
 
   burst(28);
 
-  setTimeout(() => {
-    window.open(url, "_blank", "noopener,noreferrer");
-  },250);
+  // Navegación directa: evita que el navegador bloquee la ventana emergente.
+  window.location.href = url;
 }
 
 
